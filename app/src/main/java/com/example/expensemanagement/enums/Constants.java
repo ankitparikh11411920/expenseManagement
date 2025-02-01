@@ -9,7 +9,4 @@ public enum Constants {
     LESSDETAILS,
     USERS,
     USERID,
-    CONNECTIONS,
-    FRIENDS,
-    PENDINGCONNECTIONS
 }

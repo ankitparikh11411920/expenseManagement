@@ -2,7 +2,6 @@ package com.example.expensemanagement.Utils;
 
 
 import com.example.expensemanagement.repository.CategoryRepository;
-import com.example.expensemanagement.repository.ConnectionRepository;
 import com.example.expensemanagement.repository.ExpenseRepository;
 import com.example.expensemanagement.repository.UserRepository;
 
@@ -20,7 +19,7 @@ public class Util {
         }
         return (input.toUpperCase().charAt(0)+""+input.toLowerCase().substring(1)).trim();
     }
-    public static String[] getMonths(){
+    public static String[] getMonths() {
         String[] months = new String[13];
         months[1] = "Jan";
         months[2] = "Feb";
@@ -37,12 +36,5 @@ public class Util {
 
         return months;
 
-    }
-
-    public static void destroyAllInstances(){
-        CategoryRepository.destroyInstance();
-        ConnectionRepository.destroyInstance();
-        UserRepository.destroyInstance();
-        ExpenseRepository.destroyInstance();
     }
 }

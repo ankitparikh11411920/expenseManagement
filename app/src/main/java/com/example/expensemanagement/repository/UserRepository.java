@@ -20,8 +20,7 @@ public class UserRepository {
     public static final String EMAIL = "email";
     private DatabaseReference myRef;
     private static UserRepository instance;
-    private ExpenseRepository expenseRepository;
-    private static String currentUserId;
+    private final ExpenseRepository expenseRepository;
 
     private UserRepository() {
         myRef = FirebaseDatabase.getInstance().getReference(Constants.USERS.name().toLowerCase());
@@ -44,7 +43,6 @@ public class UserRepository {
         String id = UUID.randomUUID().toString();
         User user = new User(id, name, email);
 
-        currentUserId = id;
         Query query = myRef.orderByChild(EMAIL).equalTo(email).limitToFirst(1);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -60,51 +58,5 @@ public class UserRepository {
 
             }
         });
-    }
-
-    public MutableLiveData<User> findUser(String email) {
-        MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
-        if (email == null || email.isEmpty()) {
-            return null;
-        }
-
-        Query query = myRef.orderByChild(EMAIL).equalTo(email).limitToFirst(1);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User user = dataSnapshot.getValue(User.class);
-                        userMutableLiveData.setValue(user);
-                        break;
-                    }
-                } else {
-                    userMutableLiveData.setValue(null);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return userMutableLiveData;
-    }
-
-
-    public Boolean addFriend(User user) {
-        if (user == null || user.getId() == null || user.getName() == null) return false;
-        String currentUserId = expenseRepository.getCurrentUserId();
-        myRef.child(currentUserId).child(Constants.FRIENDS.name().toLowerCase()).child(user.getId()).setValue(user.getName());
-        return true;
-    }
-
-    public String getCurrentUserId(){
-        return currentUserId;
-    }
-    public static void destroyInstance() {
-        if(instance != null){
-            instance = null;
-        }
     }
 }

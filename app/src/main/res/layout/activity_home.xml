@@ -29,34 +29,6 @@
         android:text="Add Category" />
 
     <Button
-        android:id="@+id/btn_find_user_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Find user" />
-
-    <Button
-        android:id="@+id/btn_show_requests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Show Pending Requests" />
-
-    <Button
-        android:id="@+id/btn_show_connections"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Show Connections" />
-
-    <Button
-        android:id="@+id/btn_upload_to_drive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Upload" />
-
-    <Button
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

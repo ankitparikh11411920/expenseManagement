@@ -14,22 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseManagement">
         <activity
-            android:name=".ui.UploadActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.ConnectionsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.PendingRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.FindUsersActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.SelectedCategoryActivity"
             android:exported="false">
             <meta-data
