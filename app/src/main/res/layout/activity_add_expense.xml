@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.AddExpenseActivity">
+
+    <Spinner
+        android:id="@+id/spinner_categoryName_addExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Category Name"
+        android:padding="16dp" />
+
+    <EditText
+        android:id="@+id/edt_amount_addExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Amount"
+        android:inputType="numberDecimal"
+        android:padding="16dp" />
+
+    <EditText
+        android:id="@+id/edt_description_addExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/tv_date_AddExpenseActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:padding="16dp"
+        android:text="Date"
+        android:textSize="18sp"/>
+
+
+    <Button
+        android:id="@+id/btn_addExpense_addExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:text="Add Expense" />
+
+</LinearLayout>
