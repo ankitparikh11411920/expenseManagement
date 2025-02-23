@@ -4,11 +4,18 @@ package com.example.expensemanagement.repository;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensemanagement.Model.Expense;
 import com.example.expensemanagement.Utils.Util;
+import com.example.expensemanagement.callbacks.SuccessFailureCallback;
 import com.example.expensemanagement.enums.Constants;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -53,15 +61,15 @@ public class ExpenseRepository {
     /**
      * Gets all the expenses for given month<br>
      */
-    public MutableLiveData<List<Expense>> getExpensesForMonthAndYear(int month, int year) {
+    public MutableLiveData<List<Expense>> getExpensesForMonthAndYear(int month, int year, SuccessFailureCallback<List<Expense>> successFailureCallback) {
         MutableLiveData<List<Expense>> expenses = new MutableLiveData<>();
-        myRef.child(String.valueOf(year)).child(String.valueOf(month)).addValueEventListener(new ValueEventListener() {
+//        Task<DataSnapshot> task = myRef.child(String.valueOf(year)).child(String.valueOf(month)).get();
+        myRef.child(String.valueOf(year)).child(String.valueOf(month)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 HashMap<String, Expense> map = new HashMap<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Expense expense = dataSnapshot.getValue(Expense.class);
+                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                    Expense expense = dataSnapshot1.getValue(Expense.class);
                     if (expense == null) {
                         break;
                     }
@@ -75,16 +83,22 @@ public class ExpenseRepository {
                     }
                 }
                 List<Expense> expenseList = new ArrayList<>(map.values());
+                if(successFailureCallback != null) successFailureCallback.onSuccessListener(expenseList);
                 expenses.setValue(expenseList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, "onCancelled: " + error.getMessage());
+                if(successFailureCallback != null) successFailureCallback.onFailureListener("Something went wrong! "+ error.getMessage());
             }
         });
+
         return expenses;
     }
+    public MutableLiveData<List<Expense>> getExpensesForMonthAndYear(int month, int year){
+        return getExpensesForMonthAndYear(month, year, null);
+    }
+
 
     public void addExpense(String categoryName, String amount, String description, LocalDate date) {
         String id = UUID.randomUUID().toString();
@@ -157,5 +171,31 @@ public class ExpenseRepository {
         if (instance != null) {
             instance = null;
         }
+    }
+
+    public List<Expense> getExpensesForInterval(DateTime startDate, DateTime endDate, SuccessFailureCallback<List<Expense>> successFailureCallback) {
+
+        List<Expense> expenseList = new ArrayList<>();
+        recursiveCall(startDate, endDate, expenseList, successFailureCallback);
+        return expenseList;
+    }
+
+    private void recursiveCall(DateTime startDate, DateTime endDate, List<Expense> expenseList, SuccessFailureCallback<List<Expense>> successFailureCallback){
+        if(startDate.isAfter(endDate)) {
+            successFailureCallback.onSuccessListener(expenseList);
+            return;
+        }
+        getExpensesForMonthAndYear(startDate.getMonthOfYear(), startDate.getYear(), new SuccessFailureCallback<List<Expense>>() {
+            @Override
+            public void onSuccessListener(List<Expense> result) {
+                expenseList.addAll(result);
+                recursiveCall(startDate.plusMonths(1), endDate, expenseList, successFailureCallback);
+            }
+
+            @Override
+            public void onFailureListener(String message) {
+                successFailureCallback.onFailureListener(message);
+            }
+        });
     }
 }
