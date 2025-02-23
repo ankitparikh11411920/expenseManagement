@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.ExportActivity">
+
+  <TextView
+      android:id="@+id/tv_from_date_ExportActivity"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      android:padding="16dp"
+      android:text="From Date"
+      android:textSize="18sp"/>
+  <TextView
+      android:id="@+id/tv_to_date_ExportActivity"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      android:padding="16dp"
+      android:text="To Date"
+      android:textSize="18sp"/>
+
+  <Button
+      android:id="@+id/btn_export_to_csv_ExportActivity"
+      android:layout_gravity="center"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Export to CSV"/>
+  </LinearLayout>

@@ -1,10 +1,6 @@
 package com.example.expensemanagement.Utils;
 
 
-import com.example.expensemanagement.repository.CategoryRepository;
-import com.example.expensemanagement.repository.ExpenseRepository;
-import com.example.expensemanagement.repository.UserRepository;
-
 import org.joda.time.LocalDate;
 
 
