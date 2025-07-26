@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.expensemanagement" >
+    package="com.example.expensemanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,20 +12,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ExpenseManagement" >
+        android:theme="@style/Theme.ExpenseManagement">
         <activity
             android:name=".ui.ExportActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SelectedCategoryActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.AddCategoryActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -40,8 +40,11 @@
             android:name=".ui.HomeActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.CategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

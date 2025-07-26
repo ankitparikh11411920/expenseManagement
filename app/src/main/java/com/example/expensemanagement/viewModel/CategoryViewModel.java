@@ -6,12 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.expensemanagement.callbacks.SuccessFailureCallback;
 import com.example.expensemanagement.repository.CategoryRepository;
 
 import java.util.List;
 
 public class CategoryViewModel extends AndroidViewModel {
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
     private LiveData<List<String>> categoryList;
     public CategoryViewModel(@NonNull Application application) {
         super(application);
@@ -22,13 +23,19 @@ public class CategoryViewModel extends AndroidViewModel {
         categoryRepository.addCategory(categoryName);
     }
 
-    public List<String> getAllCategories(){
+    public void getAllCategories(){
         categoryList = categoryRepository.getAllCategories();
-        return categoryList.getValue();
     }
 
     public LiveData<List<String>> getCategoryList() {
         return categoryList;
+    }
+
+    public void removeCategory(String categoryName, SuccessFailureCallback<String> successFailureCallback) {
+        if(categoryName == null || categoryName.isEmpty()){
+            return;
+        }
+        categoryRepository.removeCategory(categoryName, successFailureCallback);
     }
 }
 

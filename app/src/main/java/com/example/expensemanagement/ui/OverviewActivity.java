@@ -48,6 +48,8 @@ public class OverviewActivity extends AppCompatActivity {
 
         ArrayAdapter<Month> months = new ArrayAdapter<Month>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, Month.values());
         spinner_select_month.setAdapter(months);
+        int month = Util.getTodayDate().getMonthOfYear() - 1;
+        spinner_select_month.setSelection(month);
 
         initYearSpinner();
 
@@ -82,7 +84,6 @@ public class OverviewActivity extends AppCompatActivity {
             Intent intent = new Intent(OverviewActivity.this, SelectedCategoryActivity.class);
             intent.putExtra(Constants.CATEGORIES.name(),expenseViewModel.getExpenseLiveData().getValue().get(position).getCategoryName());
             intent.putExtra(Constants.MONTH.name(), String.valueOf(spinner_select_month.getSelectedItemPosition()+1));
-            //TODO change this static year
             intent.putExtra(Constants.YEAR.name(), String.valueOf(spinner_select_year.getSelectedItem()));
             startActivity(intent);
         });

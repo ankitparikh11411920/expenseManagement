@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensemanagement.Utils.Util;
+import com.example.expensemanagement.callbacks.SuccessFailureCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +28,7 @@ public class CategoryRepository {
 
     private CategoryRepository() {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        myRef = FirebaseDatabase.getInstance().getReference().child(user.getUid());
+        myRef = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child(CATEGORIES.name().toLowerCase());
     }
 
     public static CategoryRepository getInstance() {
@@ -41,18 +42,18 @@ public class CategoryRepository {
 
     public void addCategory(String categoryName) {
         categoryName = Util.makeFirstCharacterCapital(categoryName);
-        myRef.child(CATEGORIES.name().toLowerCase()).child(categoryName).setValue(categoryName);
+        myRef.child(categoryName).setValue(categoryName);
     }
 
     public MutableLiveData<List<String>> getAllCategories() {
 
         MutableLiveData<List<String>> categoryItems = new MutableLiveData<>();
-        myRef.child(CATEGORIES.name().toLowerCase()).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     List<String> categoryList = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String name = dataSnapshot.getKey();
                         categoryList.add(name);
                     }
@@ -70,8 +71,15 @@ public class CategoryRepository {
     }
 
     public static void destroyInstance() {
-        if(instance != null){
+        if (instance != null) {
             instance = null;
         }
+    }
+
+    public void removeCategory(String categoryName, SuccessFailureCallback<String> successFailureCallback) {
+        myRef.child(categoryName)
+            .removeValue()
+            .addOnSuccessListener(unused -> successFailureCallback.onSuccessListener(categoryName + " removed."))
+            .addOnFailureListener(e -> successFailureCallback.onFailureListener(e.getMessage()));
     }
 }
