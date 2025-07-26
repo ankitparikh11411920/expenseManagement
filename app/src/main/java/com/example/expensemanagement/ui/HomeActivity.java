@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button btn_overview;
     private Button btn_add_expense;
     private Button btn_add_category;
+    private Button btn_category;
     private Button btn_export_to_excel;
     private Button btn_logout;
 
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_add_expense = findViewById(R.id.btn_add_expense_home);
         btn_overview = findViewById(R.id.btn_overview_home);
         btn_add_category = findViewById(R.id.btn_add_category_home);
+        btn_category = findViewById(R.id.btn_category_home);
         btn_export_to_excel = findViewById(R.id.btn_export);
         btn_logout = findViewById(R.id.btn_logout);
 
@@ -35,6 +37,9 @@ public class HomeActivity extends AppCompatActivity {
         btn_add_category.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddCategoryActivity.class)));
 
         btn_export_to_excel.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ExportActivity.class)));
+
+        btn_category.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), CategoryActivity.class)));
+
         btn_logout.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));

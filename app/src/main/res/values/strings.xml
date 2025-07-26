@@ -3,5 +3,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="category_name">Category Name</string>
+    <string name="title_activity_category">Category</string>
     <!--    <string name="default_web_client_id">965705191657-3762spg0foq7jp3bb3qgq2j5guj1kvl5.apps.googleusercontent.com</string>-->
 </resources>

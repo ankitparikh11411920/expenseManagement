@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensemanagement.Model.Expense;
 import com.example.expensemanagement.R;
+import com.example.expensemanagement.Utils.Util;
 import com.example.expensemanagement.enums.Constants;
-import com.example.expensemanagement.enums.SpecialCharacters;
 
 import java.util.List;
 
@@ -108,12 +108,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-
-            contextMenu.setHeaderTitle("Select option");
-            contextMenu.add(getAdapterPosition(), SpecialCharacters.DELETE,0,"DELETE");
-            contextMenu.add(getAdapterPosition(), SpecialCharacters.UPDATE,0,"UPDATE");
+            Util.createUpdateDeleteContextMenu(contextMenu, getAdapterPosition());
         }
-
-
     }
 }

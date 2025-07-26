@@ -1,6 +1,10 @@
 package com.example.expensemanagement.Utils;
 
 
+import android.view.ContextMenu;
+
+import com.example.expensemanagement.enums.SpecialCharacters;
+
 import org.joda.time.LocalDate;
 
 
@@ -31,6 +35,12 @@ public class Util {
         months[12] = "Dec";
 
         return months;
+
+    }
+
+    public static void createUpdateDeleteContextMenu(ContextMenu contextMenu, int position){
+        contextMenu.setHeaderTitle("Select option");
+        contextMenu.add(position, SpecialCharacters.DELETE,0,"Delete");
 
     }
 }
