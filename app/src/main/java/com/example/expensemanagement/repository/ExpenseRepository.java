@@ -1,21 +1,13 @@
 package com.example.expensemanagement.repository;
 
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensemanagement.Model.Expense;
 import com.example.expensemanagement.Utils.Util;
 import com.example.expensemanagement.callbacks.SuccessFailureCallback;
 import com.example.expensemanagement.enums.Constants;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,12 +34,10 @@ public class ExpenseRepository {
     private DatabaseReference myRef;
     private FirebaseUser user;
     private static ExpenseRepository instance;
-    private static String currentUserId;
 
     private ExpenseRepository() {
         user = FirebaseAuth.getInstance().getCurrentUser();
         myRef = FirebaseDatabase.getInstance().getReference().child(user.getUid());
-        getUserId();
     }
 
     public static ExpenseRepository getInstance() {
@@ -63,7 +53,6 @@ public class ExpenseRepository {
      */
     public MutableLiveData<List<Expense>> getExpensesForMonthAndYear(int month, int year, SuccessFailureCallback<List<Expense>> successFailureCallback) {
         MutableLiveData<List<Expense>> expenses = new MutableLiveData<>();
-//        Task<DataSnapshot> task = myRef.child(String.valueOf(year)).child(String.valueOf(month)).get();
         myRef.child(String.valueOf(year)).child(String.valueOf(month)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -144,33 +133,7 @@ public class ExpenseRepository {
 
     public void addUserId(String userId) {
         if (userId == null || userId.isEmpty()) return;
-        currentUserId = userId;
         myRef.child(Constants.USERID.name().toLowerCase()).setValue(userId);
-    }
-
-    public String getCurrentUserId() {
-        if (currentUserId == null) getUserId();
-        return currentUserId;
-    }
-
-    private void getUserId() {
-        myRef.child(Constants.USERID.name().toLowerCase()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentUserId = snapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public static void destroyInstance() {
-        if (instance != null) {
-            instance = null;
-        }
     }
 
     public List<Expense> getExpensesForInterval(DateTime startDate, DateTime endDate, SuccessFailureCallback<List<Expense>> successFailureCallback) {
